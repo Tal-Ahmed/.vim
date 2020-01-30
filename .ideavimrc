@@ -1,0 +1,19 @@
+noremap <Up> <Nop>
+noremap <Down> <Nop>
+noremap <Left> <Nop>
+noremap <Right> <Nop>
+noremap <h> <Nop>
+noremap <l> <Nop>
+noremap <C-]> <Nop>
+inoremap <Esc> <Nop>
+
+set so=999
+
+nmap h :action PreviousTab<CR>
+nmap l :action NextTab<CR>
+nmap gH :action GotoRelated<CR>
+nmap gD :action GotoImplementation<CR>
+nmap rr :action RenameElement<CR>
+
+unmap <C-w>
+unmap <C-]>
