@@ -1,5 +1,7 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhistcnt =8
+let g:netrw_dirhistcnt =0
+let g:netrw_dirhist_0='/home/mtalha/dev/ats-plugins/ats-plugin-simulated-origin-server_trunk/functional_test'
+let g:netrw_dirhist_9='/home/mtalha/dev/ats-plugins/ats-plugin-simulated-origin-server_trunk/build'
 let g:netrw_dirhist_8='/home/mtalha/dev/ats-plugins/ats-plugin-simulated-origin-server_trunk/functional_test/docs'
 let g:netrw_dirhist_7='/home/mtalha/dev/ats-plugins/ats-plugin-simulated-origin-override_trunk/ats-plugin-simulated-origin-override/src/cpp'
 let g:netrw_dirhist_6='/home/mtalha/.vim/bundle/vim-gutentags/plugin'
@@ -8,5 +10,3 @@ let g:netrw_dirhist_4='/home/mtalha/dev/ats-plugins/ats-plugin-simulated-origin-
 let g:netrw_dirhist_3='/home/mtalha/dev/ats-plugins/ats-plugin-simulated-origin-override_trunk/ats-plugin-simulated-origin-override/src'
 let g:netrw_dirhist_2='/home/mtalha/dev/ats-plugins/ats-plugin-simulated-origin-override_trunk/ats-plugin-simulated-origin-override'
 let g:netrw_dirhist_1='/home/mtalha/dev/ats-plugins/ats-plugin-simulated-origin-override_trunk'
-let g:netrw_dirhist_0='/home/mtalha/dev/ats-plugins'
-let g:netrw_dirhist_9='/home/mtalha/dev/ats-plugins/ats-plugin-userrequestevent_trunk/ats-plugin-userrequestevent/main/src'
