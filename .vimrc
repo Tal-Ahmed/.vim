@@ -88,3 +88,5 @@ set tags+=~/.tags/home-mtalha-dev-ats-libs-ats-lib-plugin-controls_trunk-tags
 set tags+=~/.tags/home-mtalha-dev-ats-libs-ats-lib-plugin-libs_trunk-tags
 set tags+=~/.tags/home-mtalha-dev-ats-libs-ats-lib-yaml-cpp_trunk-tags
 
+" Global YCM configuration file
+let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_extra_conf.py'
