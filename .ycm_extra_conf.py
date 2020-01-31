@@ -163,8 +163,6 @@ def GetPythonSitePackages(filename):
 
 
 def Settings(**kwargs):
-    if not kwargs['filename'].startswith('/home/%s/dev' % GetUserName()):
-        return {}
     if kwargs['language'] == 'cfamily':
         filename = FindCorrespondingSourceFile(kwargs['filename'])
         cxx_flags = flags + ['-I' + include for include in GenerateLocalInclude(filename) + GenerateLibraryIncludes(filename) + GenerateAdditionalLibraryIncludes(CXX_WHITELIST_LIBRARIES)]
