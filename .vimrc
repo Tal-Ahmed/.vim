@@ -12,9 +12,23 @@ let &t_te.="\e[0 q"
 " Back-space
 set backspace=indent,eol,start
 
+" Airline cache enable
+let g:airline_highlighting_cache = 1
+
+" Airline settings
+if ! has('gui_running')
+  set ttimeoutlen=10
+  augroup FastEscape
+    autocmd!
+    au InsertEnter * set timeoutlen=0
+    au InsertLeave * set timeoutlen=1000
+  augroup END
+endif
+
 " Dracula colorscheme
 let g:dracula_italic = 0
 colorscheme dracula
+highlight Normal ctermbg=None
 
 set cursorline
 
