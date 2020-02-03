@@ -69,6 +69,15 @@ set shiftwidth=2
 " Very high scroll-offset to vertically align
 set so=999
 
+" Know when Gutentags is generating tags
+set statusline+=%{gutentags#statusline()}
+
+" Hide tag files
+let g:gutentags_cache_dir = expand('~/.tags')
+
+" Only index, C, C++, Python files
+let g:gutentags_file_list_command = 'find -regex ".*/.*\.\(c\|cpp\|cc\|hpp\|h\)$"'
+
 " Prevent YCM from asking if its safe to load .ycm_extra_conf.py file
 let g:ycm_confirm_extra_conf = 0
 
