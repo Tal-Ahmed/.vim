@@ -37,25 +37,25 @@ set wildmenu
 set wildmode=longest:full,full
 
 " <Nop> arrow keys
-cnoremap <Up> <C-W><C-K>
-cnoremap <Down> <C-W><C-J>
-cnoremap <Left> <C-W><C-H>
-cnoremap <Right> <C-W><C-L>
+cnoremap <C-k> <C-W><C-K>
+cnoremap <C-j> <C-W><C-J>
+cnoremap <C-h> <C-W><C-H>
+cnoremap <C-l> <C-W><C-L>
 
-inoremap <Up> <C-W><C-K>
-inoremap <Down> <C-W><C-J>
-inoremap <Left> <C-W><C-H>
-inoremap <Right> <C-W><C-L>
+inoremap <C-k> <C-W><C-K>
+inoremap <C-j> <C-W><C-J>
+inoremap <C-h> <C-W><C-H>
+inoremap <C-l> <C-W><C-L>
 
-nnoremap <Up> <C-W><C-K>
-nnoremap <Down> <C-W><C-J>
-nnoremap <Left> <C-W><C-H>
-nnoremap <Right> <C-W><C-L>
+nnoremap <C-k> <C-W><C-K>
+nnoremap <C-j> <C-W><C-J>
+nnoremap <C-h> <C-W><C-H>
+nnoremap <C-l> <C-W><C-L>
 
-vnoremap <Up> <C-W><C-K>
-vnoremap <Down> <C-W><C-J>
-vnoremap <Left> <C-W><C-H>
-vnoremap <Right> <C-W><C-L>
+vnoremap <C-k> <C-W><C-K>
+vnoremap <C-j> <C-W><C-J>
+vnoremap <C-h> <C-W><C-H>
+vnoremap <C-l> <C-W><C-L>
 
 " Enable line numbers
 set nu
@@ -68,15 +68,6 @@ set shiftwidth=2
 
 " Very high scroll-offset to vertically align
 set so=999
-
-" Know when Gutentags is generating tags
-set statusline+=%{gutentags#statusline()}
-
-" Hide tag files
-let g:gutentags_cache_dir = expand('~/.tags')
-
-" Only index, C, C++, Python files
-let g:gutentags_file_list_command = 'find -regex ".*/.*\.\(c\|cpp\|cc\|hpp\|h\)$"'
 
 " Prevent YCM from asking if its safe to load .ycm_extra_conf.py file
 let g:ycm_confirm_extra_conf = 0
@@ -104,3 +95,9 @@ autocmd Filetype c,cpp set tags+=~/.tags/home-mtalha-dev-ats-libs-ats-lib-yaml-c
 
 " Global YCM configuration file
 let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_extra_conf.py'
+
+" YCM custom IDE-like mappings
+nnoremap rr :YcmCompleter RefactorRename
+nnoremap gd :YcmCompleter GoToDefinition<CR>
+nnoremap gD :YcmCompleter GoToImplementation<CR>
+nnoremap gt :YcmCompleter GetType<CR>
