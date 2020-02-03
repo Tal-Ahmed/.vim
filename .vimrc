@@ -108,5 +108,5 @@ let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_extra_conf.py'
 " YCM custom IDE-like mappings
 nnoremap rr :YcmCompleter RefactorRename
 nnoremap gd :YcmCompleter GoToDefinition<CR>
-nnoremap gD :YcmCompleter GoToImplementation<CR>
+nnoremap gD <C-]><CR>
 nnoremap gt :YcmCompleter GetType<CR>
