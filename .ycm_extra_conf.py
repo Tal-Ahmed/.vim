@@ -5,7 +5,7 @@ import glob
 
 SOURCE_EXTENSIONS = ['.cpp', '.cc', '.c']
 HEADER_EXTENSIONS = ['.h', '.hpp']
-CXX_BLACKLIST_LIBRARIES = ['ats-tester', 'ats-buildfs-rhel7']
+CXX_BLACKLIST_LIBRARIES = ['ats-tester', 'ats-buildfs-rhel7', 'ats-buildfs-rhel6']
 CXX_WHITELIST_LIBRARIES = [('ats-core', ['ats6'], '*.*.*')]
 CXX_ADDITIONAL_LIBRARIES = {'ats-lib-yaml-cpp': ('ATS-lib-li-yamlcpp', [], '*.*.*')}
 PY_LIBRARIES = [('ats-tester', '*.*.*')]
@@ -89,7 +89,8 @@ def GenerateLibraryIncludes(filename):
             if productname in CXX_ADDITIONAL_LIBRARIES:
                 additional.append(CXX_ADDITIONAL_LIBRARIES[productname])
             libraries = json_productspec['product'][productname]['libraries']
-            libraries.append(productname)
+            if productname != 'ats-core':
+                libraries.append(productname)
             version = json_productspec['product'][productname]['version']
             for library in libraries:
                 libraryinclude = GetHighestVersionLibrary(
@@ -122,15 +123,16 @@ def GenerateLocalInclude(filename):
     if not filename.startswith('/home/%s' % GetUserName()):
         return []
     basename = os.path.dirname(filename)
-    while basename != '/home/%s' % GetUserName() and not os.path.exists(basename + '/product-spec.json'):
+    while basename != '/home/%s' % GetUserName() and not os.path.exists(basename + '/build.gradle'):
         basename = os.path.dirname(basename)
     if basename == '/home/%s' % GetUserName():
         return []
     includes = []
-    for d in os.walk(basename):
-        include = d[0]
-        if 'release' not in include and ('include' in include or 'cpp' in include or 'src' in include):
-            includes.append(include)
+    for root, dirs, files in os.walk(basename):
+        if 'release' in root or 'build' in root or 'config' in root:
+            continue
+        if 'include' in root or 'cpp' in root or 'src' in root:
+            includes.append(root)
     return includes
 
 
@@ -166,7 +168,6 @@ def Settings(**kwargs):
     if kwargs['language'] == 'cfamily':
         filename = FindCorrespondingSourceFile(kwargs['filename'])
         cxx_flags = flags + ['-I' + include for include in GenerateLocalInclude(filename) + GenerateLibraryIncludes(filename) + GenerateAdditionalLibraryIncludes(CXX_WHITELIST_LIBRARIES)]
-        print(cxx_flags)
         return {
             'flags': cxx_flags,
             'override_filename': filename

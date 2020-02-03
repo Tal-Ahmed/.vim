@@ -78,6 +78,7 @@ let g:gutentags_cache_dir = expand('~/.tags')
 " Only index, C, C++ files
 let g:gutentags_file_list_command = 'find -regex ".*/.*\.\(c\|cpp\|cc\|hpp\|h\)$"'
 
+" Tag file names as well
 let g:gutentags_ctags_extra_args = ['--extra=+f']
 
 " Prevent YCM from asking if its safe to load .ycm_extra_conf.py file
