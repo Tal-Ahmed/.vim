@@ -75,8 +75,10 @@ set statusline+=%{gutentags#statusline()}
 " Hide tag files
 let g:gutentags_cache_dir = expand('~/.tags')
 
-" Only index, C, C++, Python files
+" Only index, C, C++ files
 let g:gutentags_file_list_command = 'find -regex ".*/.*\.\(c\|cpp\|cc\|hpp\|h\)$"'
+
+let g:gutentags_ctags_extra_args = ['--extra=+f']
 
 " Prevent YCM from asking if its safe to load .ycm_extra_conf.py file
 let g:ycm_confirm_extra_conf = 0
@@ -106,7 +108,7 @@ autocmd Filetype c,cpp set tags+=~/.tags/home-mtalha-dev-ats-libs-ats-lib-yaml-c
 let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_extra_conf.py'
 
 " YCM custom IDE-like mappings
-nnoremap rr :YcmCompleter RefactorRename
+nnoremap rr :YcmCompleter RefactorRename 
 nnoremap gd :YcmCompleter GoToDefinition<CR>
 nnoremap gD <C-]><CR>
 nnoremap gt :YcmCompleter GetType<CR>

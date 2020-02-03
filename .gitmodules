@@ -1,6 +1,6 @@
 [submodule "bundle/vim-gutentags"]
 	path = bundle/vim-gutentags
-  url = https://github.com/ludovicchabant/vim-gutentags.git
+	url = https://github.com/ludovicchabant/vim-gutentags
 [submodule "bundle/dracula"]
 	path = bundle/dracula
 	url = https://github.com/dracula/vim.git
@@ -10,3 +10,6 @@
 [submodule "bundle/vim-airline"]
 	path = bundle/vim-airline
 	url = https://github.com/vim-airline/vim-airline.git
+[submodule "vim-gutentags"]
+	path = vim-gutentags
+	url = https://github.com/ludovicchabant/vim-gutentags
