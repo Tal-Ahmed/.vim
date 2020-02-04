@@ -9,8 +9,17 @@ let &t_SI.="\e[5 q"
 let &t_EI.="\e[1 q"
 let &t_te.="\e[0 q"
 
+" Prevent vim from auto commenting
+set paste
+
 " Back-space
 set backspace=indent,eol,start
+
+" Nerd comment shortcuts
+autocmd Filetype c,cpp vnoremap gc :norm 0i<C-r>='//'<CR><CR>
+autocmd Filetype c,cpp vnoremap gu :norm ^<C-r>=len('//')<CR>x<CR>
+autocmd Filetype python vnoremap gc :norm 0i<C-r>='#'<CR><CR>
+autocmd Filetype python vnoremap gu :norm ^<C-r>=len('#')<CR>x<CR>
 
 " Airline cache enable
 let g:airline_highlighting_cache = 1
