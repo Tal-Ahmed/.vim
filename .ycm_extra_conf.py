@@ -7,7 +7,7 @@ SOURCE_EXTENSIONS = ['.cpp', '.cc', '.c']
 HEADER_EXTENSIONS = ['.h', '.hpp']
 CXX_BLACKLIST_LIBRARIES = ['ats-tester']
 CXX_WHITELIST_LIBRARIES = [('ats-core', ['ats6'], '*.*.*')]
-CXX_ADDITIONAL_LIBRARIES = {'ats-lib-yaml-cpp': ('ATS-lib-li-yamlcpp', [], '*.*.*')}
+CXX_ADDITIONAL_LIBRARIES = {'ats-lib-yaml-cpp': ('ATS-lib-li-yamlcpp', [], '*.*.*'), 'ATS-lib-li-yamlcpp': ('ats-lib-yaml-cpp', [], '*.*.*')}
 PY_LIBRARIES = [('ats-tester', '*.*.*')]
 
 
