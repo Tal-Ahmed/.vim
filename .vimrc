@@ -68,7 +68,8 @@ set splitbelow
 set splitright
 
 " Indentation for different file types 
-autocmd Filetype c,cpp set expandtab tabstop=2 shiftwidth=2
+autocmd Filetype c,cpp set cindent 
+autocmd Filetype c,cpp set expandtab tabstop=2 softtabstop=2 shiftwidth=2 cinoptions=g+1,h1,(0,w1,N-s
 autocmd Filetype python set expandtab tabstop=8 softtabstop=4 shiftwidth=4
 
 " Wildmenu to full
