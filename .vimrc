@@ -88,6 +88,9 @@ let g:gutentags_file_list_command = 'find -regex ".*/.*\.\(c\|cpp\|cc\|hpp\|h\)$
 " Tag file names as well
 let g:gutentags_ctags_extra_args = ['--extra=+f']
 
+" Ctag shortcuts
+nnoremap <C-w><C-[> :vert winc ]<CR>
+
 " Prevent YCM from asking if its safe to load .ycm_extra_conf.py file
 let g:ycm_confirm_extra_conf = 0
 
@@ -104,7 +107,6 @@ set splitright
 
 " Load in tags for C/C++ files
 autocmd Filetype c,cpp set tags+=~/.tags/home-mtalha-dev-ats-core-ats-core_trunk-ats6-src-tags
-autocmd Filetype c,cpp set tags+=~/.tags/home-mtalha-dev-ats-core-ats-core_trunk-ats-core-src-tags
 autocmd Filetype c,cpp set tags+=~/.tags/home-mtalha-dev-ats-core-ats-core_trunk-tags
 autocmd Filetype c,cpp set tags+=~/.tags/home-mtalha-dev-ats-libs-ats-lib-li-atscppapi_trunk-tags
 autocmd Filetype c,cpp set tags+=~/.tags/home-mtalha-dev-ats-libs-ats-lib-lixclient_trunk-tags
@@ -118,6 +120,5 @@ let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_extra_conf.py'
 
 " YCM custom IDE-like mappings
 nnoremap rr :YcmCompleter RefactorRename 
-nnoremap gd :YcmCompleter GoToDefinition<CR>
-nnoremap gD <C-]><CR>
-nnoremap gt :YcmCompleter GetType<CR>
+nnoremap gD :YcmCompleter GoToDefinition<CR>
+noremap gt :YcmCompleter GetType<CR>
