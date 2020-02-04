@@ -71,7 +71,7 @@ set nu
 
 " Indentation for different file types 
 autocmd Filetype c,cpp set expandtab tabstop=2 softtabstop=2 shiftwidth=2
-autocmd Filetype python set expandtab tabstop=4 softtabstop=4 shiftwidth=4
+autocmd Filetype python set expandtab tabstop=8 softtabstop=4 shiftwidth=4
 
 " Very high scroll-offset to vertically align
 set so=999
