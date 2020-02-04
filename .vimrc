@@ -60,11 +60,9 @@ vnoremap <C-l> <C-W><C-L>
 " Enable line numbers
 set nu
 
-" Use 2 spaces for indentation
-set expandtab
-set tabstop=2
-set softtabstop=2
-set shiftwidth=2
+" Indentation for different file types 
+autocmd Filetype c,cpp set expandtab tabstop=2 softtabstop=2 shiftwidth=2
+autocmd Filetype python set expandtab tabstop=4 softtabstop=4 shiftwidth=4
 
 " Very high scroll-offset to vertically align
 set so=999
@@ -95,6 +93,7 @@ set signcolumn=yes
 set splitbelow
 set splitright
 
+" Load in tags for C/C++ files
 autocmd Filetype c,cpp set tags+=~/.tags/home-mtalha-dev-ats-core-ats-core_trunk-ats6-src-tags
 autocmd Filetype c,cpp set tags+=~/.tags/home-mtalha-dev-ats-core-ats-core_trunk-ats-core-src-tags
 autocmd Filetype c,cpp set tags+=~/.tags/home-mtalha-dev-ats-core-ats-core_trunk-tags
