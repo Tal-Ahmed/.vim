@@ -5,7 +5,7 @@ import glob
 
 SOURCE_EXTENSIONS = ['.cpp', '.cc', '.c']
 HEADER_EXTENSIONS = ['.h', '.hpp']
-CXX_BLACKLIST_LIBRARIES = ['ats-tester', 'ats-buildfs-rhel7', 'ats-buildfs-rhel6']
+CXX_BLACKLIST_LIBRARIES = ['ats-tester']
 CXX_WHITELIST_LIBRARIES = [('ats-core', ['ats6'], '*.*.*')]
 CXX_ADDITIONAL_LIBRARIES = {'ats-lib-yaml-cpp': ('ATS-lib-li-yamlcpp', [], '*.*.*')}
 PY_LIBRARIES = [('ats-tester', '*.*.*')]
