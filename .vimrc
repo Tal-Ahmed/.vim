@@ -10,7 +10,7 @@ let &t_EI.="\e[1 q"
 let &t_te.="\e[0 q"
 
 " Prevent vim from auto commenting
-set paste
+autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 
 " Back-space
 set backspace=indent,eol,start
