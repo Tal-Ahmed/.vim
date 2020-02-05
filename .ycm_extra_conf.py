@@ -12,7 +12,7 @@ SOURCE_EXTENSIONS = ['.cpp', '.cc', '.c']
 HEADER_EXTENSIONS = ['.h', '.hpp']
 
 # Disable generating includes for ats-buildfs
-CXX_DISABLE_ATS_BUILDFS_INCLUDES = True
+CXX_DISABLE_ATS_BUILDFS_INCLUDES = False
 
 # Blacklist any include that contains the following as a sub dir (does not apply to ats-buildfs includes)
 CXX_BLACKLIST_INCLUDE_SUBDIR = ['.git', 'example', '.deps', 'doc', 'docs', '.libs', 'build', 'release', 'config', 'ats-tester', 'test', 'msinttypes']
@@ -51,6 +51,13 @@ def GetLibraryInclude(library, version):
     return '/home/%s/native-repo/%s/%s/%s/include' % (GetUserName(), library, library, version)
 
 
+def GetIncludePrefix(include):
+    prefix = '-I'
+    if 'ats-buildfs' in include:
+        prefix = '-isystem '
+    return prefix + include
+
+
 # Compilation flags for C/C++ files
 flags = [
     '-g',
@@ -70,6 +77,7 @@ flags = [
     '-std=c++11',
     '-I' + GetLibraryInclude('boost', '1.55.0.6'),
     '-I' + GetLibraryInclude('ats-lib-boost', '1.41.0.0'),
+    '-I/home/mtalha/native-repo/jemalloc/jemalloc/1003.6.1.4/include',
 ]
 
 
@@ -244,6 +252,8 @@ def GetRemoveBlacklistedIncludes(includes):
         if IsValidInclude(include):
             logger.debug('Found valid include %s' % include)
             valid_includes.append(include)
+        else:
+            logger.debug('Found invalid include %s' % include)
     return valid_includes
 
 
@@ -260,13 +270,10 @@ def Settings(**kwargs):
 
         imported_products = {}
         cxx_flags = []
-        cxx_flags.extend(['-I' + include for include in GenerateLocalInclude(filename)])
-        cxx_flags.extend(['-I' + include for include in GenerateLibraryIncludes(filename, imported_products)])
-        cxx_flags.extend(['-I' + include for include in GenerateWhitelistLibraryIncludes(imported_products)])
-        cxx_flags = list(set(cxx_flags))
+        cxx_flags.extend([GetIncludePrefix(include) for include in GenerateLocalInclude(filename)])
+        cxx_flags.extend([GetIncludePrefix(include) for include in GenerateWhitelistLibraryIncludes(imported_products)])
+        cxx_flags.extend([GetIncludePrefix(include) for include in GenerateLibraryIncludes(filename, imported_products)])
 
-        if logger.level == logging.DEBUG:
-            cxx_flags.sort(reverse=True)
         cxx_flags = GetRemoveBlacklistedIncludes(cxx_flags)
 
         return {
