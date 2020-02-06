@@ -22,3 +22,6 @@ tags-*
 
 # Persistent undo
 [._]*.un~
+
+# Custom
+ats-plugin-host-override
