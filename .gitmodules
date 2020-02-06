@@ -7,9 +7,3 @@
 [submodule "bundle/vim-airline"]
 	path = bundle/vim-airline
 	url = https://github.com/vim-airline/vim-airline.git
-[submodule "vim-gutentags"]
-	path = vim-gutentags
-	url = https://github.com/ludovicchabant/vim-gutentags
-[submodule "bundle/vim-python-pep8"]
-	path = bundle/vim-python-pep8
-	url = https://github.com/Vimjas/vim-python-pep8-indent.git

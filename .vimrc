@@ -97,7 +97,7 @@ let g:dracula_italic = 0
 colorscheme dracula
 highlight Normal ctermbg=None
 
-" ---- GUTENTAGS PLUGIN ----
+" ---- CTAGS SETTINGS ----
 
 " Load in tags for C/C++ files
 let cur_dir = expand('%:p')
@@ -109,17 +109,8 @@ let cur_dir = expand('%:p')
 :	let cur_dir = fnamemodify(cur_dir, ':h')
 :endwhile
 
-" Know when Gutentags is generating tags
-set statusline+=%{gutentags#statusline()}
-
-" Ctag shortcuts
+" Ctag shortcut for opening vertical split
 nnoremap <C-w><C-[> :vert winc ]<CR>
-
-" Only index, C, C++ files
-let g:gutentags_file_list_command = 'find -regex ".*/.*\.\(c\|cpp\|cc\|hpp\|h\|hh\)$"'
-
-" Tag file names as well
-let g:gutentags_ctags_extra_args = ['--extra=+f']
 
 " ---- YOU COMPLETE ME PLUGIN ----
 
