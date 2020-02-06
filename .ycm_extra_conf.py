@@ -9,7 +9,7 @@ logger = logging.getLogger('ycm_extra_conf_logger')
 logger.setLevel(logging.DEBUG)
 
 SOURCE_EXTENSIONS = ['.cpp', '.cc', '.c']
-HEADER_EXTENSIONS = ['.h', '.hpp']
+HEADER_EXTENSIONS = ['.h', '.hh', '.hpp']
 
 # Disable generating includes for ats-buildfs
 CXX_DISABLE_ATS_BUILDFS_INCLUDES = False

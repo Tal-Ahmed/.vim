@@ -100,14 +100,14 @@ highlight Normal ctermbg=None
 " ---- GUTENTAGS PLUGIN ----
 
 " Load in tags for C/C++ files
-autocmd Filetype c,cpp set tags+=~/.tags/home-mtalha-dev-ats-core-ats-core_trunk-ats6-src-tags
-autocmd Filetype c,cpp set tags+=~/.tags/home-mtalha-dev-ats-core-ats-core_trunk-tags
-autocmd Filetype c,cpp set tags+=~/.tags/home-mtalha-dev-ats-libs-ats-lib-li-atscppapi_trunk-tags
-autocmd Filetype c,cpp set tags+=~/.tags/home-mtalha-dev-ats-libs-ats-lib-lixclient_trunk-tags
-autocmd Filetype c,cpp set tags+=~/.tags/home-mtalha-dev-ats-libs-ats-lib-lixclient_trunk-tags
-autocmd Filetype c,cpp set tags+=~/.tags/home-mtalha-dev-ats-libs-ats-lib-plugin-controls_trunk-tags
-autocmd Filetype c,cpp set tags+=~/.tags/home-mtalha-dev-ats-libs-ats-lib-plugin-libs_trunk-tags
-autocmd Filetype c,cpp set tags+=~/.tags/home-mtalha-dev-ats-libs-ats-lib-yaml-cpp_trunk-tags
+let cur_dir = expand('%:p')
+:while cur_dir != '/'
+:	for tag_file in split(globpath(cur_dir, 'tags-*'), '\n')
+:		let resolved_tag_file = resolve(tag_file)
+:		exec 'set tags+='.resolved_tag_file
+:	endfor
+:	let cur_dir = fnamemodify(cur_dir, ':h')
+:endwhile
 
 " Know when Gutentags is generating tags
 set statusline+=%{gutentags#statusline()}
@@ -115,11 +115,8 @@ set statusline+=%{gutentags#statusline()}
 " Ctag shortcuts
 nnoremap <C-w><C-[> :vert winc ]<CR>
 
-" Hide tag files
-let g:gutentags_cache_dir = expand('~/.tags')
-
 " Only index, C, C++ files
-let g:gutentags_file_list_command = 'find -regex ".*/.*\.\(c\|cpp\|cc\|hpp\|h\)$"'
+let g:gutentags_file_list_command = 'find -regex ".*/.*\.\(c\|cpp\|cc\|hpp\|h\|hh\)$"'
 
 " Tag file names as well
 let g:gutentags_ctags_extra_args = ['--extra=+f']
