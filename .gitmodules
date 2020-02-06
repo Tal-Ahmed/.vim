@@ -7,3 +7,6 @@
 [submodule "bundle/vim-airline"]
 	path = bundle/vim-airline
 	url = https://github.com/vim-airline/vim-airline.git
+[submodule "bundle/vim-tagimposter"]
+	path = bundle/vim-tagimposter
+	url = https://github.com/idbrii/vim-tagimposter.git
