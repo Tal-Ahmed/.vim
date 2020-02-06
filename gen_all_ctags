@@ -1,0 +1,33 @@
+#!/bin/bash
+
+set -x
+
+GEN_TAGS="ctags -R --c++-kinds=+p --fields=+iaS --extra=+q+f --languages=C++"
+
+echo "Removing old tag files"
+find ~/dev/ -name tags | grep -v \.git | grep -v vim | grep -v ats-buildfs-rhel7/release/install/usr/include/boost/bimap/tags | xargs rm -f
+
+echo "Generating new tag files"
+$GEN_TAGS -f /home/mtalha/dev/ats-buildfs/rhel7/ats-buildfs-rhel7_trunk/ats-buildfs-rhel7/tags /home/mtalha/dev/ats-buildfs/rhel7/ats-buildfs-rhel7_trunk/ats-buildfs-rhel7
+$GEN_TAGS -f /home/mtalha/dev/ats-buildfs/rhel6/ats-buildfs-rhel6_trunk/ats-buildfs-rhel6/tags /home/mtalha/dev/ats-buildfs/rhel6/ats-buildfs-rhel6_trunk/ats-buildfs-rhel6
+$GEN_TAGS -f /home/mtalha/dev/libs/rapidjson/rapidjson_trunk/rapidjson/tags /home/mtalha/dev/libs/rapidjson/rapidjson_trunk/rapidjson
+$GEN_TAGS -f /home/mtalha/dev/libs/dynamic-discovery/dynamic-discovery_trunk/dynamic-discovery/tags /home/mtalha/dev/libs/dynamic-discovery/dynamic-discovery_trunk/dynamic-discovery
+$GEN_TAGS -f /home/mtalha/dev/libs/liblikafka/liblikafka_trunk/liblikafka/tags /home/mtalha/dev/libs/liblikafka/liblikafka_trunk/liblikafka
+$GEN_TAGS -f /home/mtalha/dev/libs/openssl/openssl_trunk/openssl/tags /home/mtalha/dev/libs/openssl/openssl_trunk/openssl
+$GEN_TAGS -f /home/mtalha/dev/ats-libs/yaml-cpp/ats-lib-yaml-cpp_trunk/tags /home/mtalha/dev/ats-libs/yaml-cpp/ats-lib-yaml-cpp_trunk/ats-lib-yaml-cpp
+$GEN_TAGS -f /home/mtalha/dev/ats-libs/avrocpp/ats-lib-avrocpp_trunk/ats-lib-avrocpp/tags /home/mtalha/dev/ats-libs/avrocpp/ats-lib-avrocpp_trunk/ats-lib-avrocpp
+$GEN_TAGS -f /home/mtalha/dev/ats-libs/plugin-libs/ats-lib-plugin-libs_trunk/tags /home/mtalha/dev/ats-libs/plugin-libs/ats-lib-plugin-libs_trunk/ats-lib-plugin-libs
+$GEN_TAGS -f /home/mtalha/dev/ats-libs/li-atscppapi/ats-lib-li-atscppapi_trunk/tags /home/mtalha/dev/ats-libs/li-atscppapi/ats-lib-li-atscppapi_trunk/ats-lib-li-atscppapi
+$GEN_TAGS -f /home/mtalha/dev/ats-libs/plugin-controls/ats-lib-plugin-controls_trunk/tags /home/mtalha/dev/ats-libs/plugin-controls/ats-lib-plugin-controls_trunk/ats-lib-plugin-controls
+$GEN_TAGS -f /home/mtalha/dev/ats-libs/lixclient/ats-lib-lixclient_trunk/tags /home/mtalha/dev/ats-libs/lixclient/ats-lib-lixclient_trunk/ats-lib-lixclient
+$GEN_TAGS -f /home/mtalha/dev/ats-core/ats-core_trunk/ats6/tags /home/mtalha/dev/ats-core/ats-core_trunk/ats6
+$GEN_TAGS -f /home/mtalha/dev/ats-core/ats-core_trunk/ats-core/tags /home/mtalha/dev/ats-core/ats-core_trunk/ats-core
+$GEN_TAGS -f /home/mtalha/dev/ats-plugins/d2/ats-plugin-d2_trunk/tags /home/mtalha/dev/ats-plugins/d2/ats-plugin-d2_trunk/ats-plugin-d2
+$GEN_TAGS -f /home/mtalha/dev/ats-plugins/simulated-origin-server/ats-plugin-simulated-origin-server_trunk/tags /home/mtalha/dev/ats-plugins/simulated-origin-server/ats-plugin-simulated-origin-server_trunk/ats-plugin-simulated-origin-server
+$GEN_TAGS -f /home/mtalha/dev/ats-plugins/simulated-origin-override/ats-plugin-simulated-origin-override_trunk/tags /home/mtalha/dev/ats-plugins/simulated-origin-override/ats-plugin-simulated-origin-override_trunk/ats-plugin-simulated-origin-override
+$GEN_TAGS -f /home/mtalha/dev/ats-plugins/userrequestevent/ats-plugin-userrequestevent_trunk/tags /home/mtalha/dev/ats-plugins/userrequestevent/ats-plugin-userrequestevent_trunk/ats-plugin-userrequestevent
+$GEN_TAGS -f /home/mtalha/dev/ats-plugins/stats-remap/ats-plugin-stats-remap_trunk/tags /home/mtalha/dev/ats-plugins/stats-remap/ats-plugin-stats-remap_trunk/ats-plugin-stats-remap
+$GEN_TAGS -f /home/mtalha/dev/ats-plugins/lix-remap/ats-plugin-lix-remap_trunk/tags /home/mtalha/dev/ats-plugins/lix-remap/ats-plugin-lix-remap_trunk/ats-plugin-lix-remap
+$GEN_TAGS -f /home/mtalha/dev/ats-plugins/internalheader-tester/ats-plugin-internalheader-tester_trunk/tags /home/mtalha/dev/ats-plugins/internalheader-tester/ats-plugin-internalheader-tester_trunk/ats-plugin-internalheader-tester
+$GEN_TAGS -f /home/mtalha/dev/ats-plugins/cdn-authenticator/ats-plugin-cdn-authenticator_trunk/tags /home/mtalha/dev/ats-plugins/cdn-authenticator/ats-plugin-cdn-authenticator_trunk/ats-plugin-cdn-authenticator
+
