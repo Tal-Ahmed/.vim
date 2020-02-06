@@ -76,7 +76,6 @@ flags = [
     # C++11
     '-std=c++11',
     '-I' + GetLibraryInclude('boost', '1.55.0.6'),
-    '-I' + GetLibraryInclude('ats-lib-boost', '1.41.0.0'),
     '-I/home/mtalha/native-repo/jemalloc/jemalloc/1003.6.1.4/include',
 ]
 
