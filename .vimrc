@@ -115,7 +115,7 @@ highlight Normal ctermbg=None
 
 " Load in tags for Python files
 function LoadPythonTags()
-	let cur_dir = expand('&:p')
+	let cur_dir = expand('%:p')
 	:while cur_dir != '/'
 	:	for tag_file in split(globpath(cur_dir, 'python-tags-*'), '\n')
 	:		let resolved_tag_file = resolve(tag_file)
