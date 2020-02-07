@@ -102,26 +102,30 @@ highlight Normal ctermbg=None
 
 " Load in tags for C/C++ files
 :function LoadCPlusPlusTags()
-	let cur_dir = expand('%:p')
-	:while cur_dir != '/'
-	:	for tag_file in split(globpath(cur_dir, 'tags-*'), '\n')
+	let previous = ""
+	let root = expand('%:p')
+	:while root !=# previous
+	:	for tag_file in split(globpath(root, 'tags-*'), '\n')
 	:		let resolved_tag_file = resolve(tag_file)
 	:		exec 'set tags+='.resolved_tag_file
 	:	endfor
-	:	let cur_dir = fnamemodify(cur_dir, ':h')
+	:	let previous = root
+	:	let root = fnamemodify(root, ':h')
 	:endwhile
 :endfunction
 
 
 " Load in tags for Python files
 function LoadPythonTags()
-	let cur_dir = expand('%:p')
-	:while cur_dir != '/'
-	:	for tag_file in split(globpath(cur_dir, 'python-tags-*'), '\n')
+	let previous = ""
+	let root = expand('%:p')
+	:while root !=# previous
+	:	for tag_file in split(globpath(root, 'python-tags-*'), '\n')
 	:		let resolved_tag_file = resolve(tag_file)
 	:		exec 'set tags+='.resolved_tag_file
 	:	endfor
-	:	let cur_dir = fnamemodify(cur_dir, ':h')
+	:	let previous = root
+	:	let root = fnamemodify(root, ':h')
 	:endwhile
 :endfunction
 
