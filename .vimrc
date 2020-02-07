@@ -117,9 +117,6 @@ nnoremap <C-w><C-[> :vert winc ]<CR>
 " Disable signature help
 let g:ycm_disable_signature_help = 1
 
-" Allow YCM to look at tag files
-let g:ycm_collect_identifiers_from_tags_files = 1
-
 " Prevent YCM from asking if its safe to load .ycm_extra_conf.py file
 let g:ycm_confirm_extra_conf = 0
 
