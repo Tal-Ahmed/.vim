@@ -87,6 +87,7 @@ let g:airline_highlighting_cache = 1
 " Set airline theme
 let g:airline_theme='dracula'
 
+" Enable powerline fonts
 let g:airline_powerline_fonts = 1
 
 " ---- DRACULA PLUGIN ----
@@ -100,14 +101,32 @@ highlight Normal ctermbg=None
 " ---- CTAGS SETTINGS ----
 
 " Load in tags for C/C++ files
-let cur_dir = expand('%:p')
-:while cur_dir != '/'
-:	for tag_file in split(globpath(cur_dir, 'tags-*'), '\n')
-:		let resolved_tag_file = resolve(tag_file)
-:		exec 'set tags+='.resolved_tag_file
-:	endfor
-:	let cur_dir = fnamemodify(cur_dir, ':h')
-:endwhile
+:function LoadCPlusPlusTags()
+	let cur_dir = expand('%:p')
+	:while cur_dir != '/'
+	:	for tag_file in split(globpath(cur_dir, 'tags-*'), '\n')
+	:		let resolved_tag_file = resolve(tag_file)
+	:		exec 'set tags+='.resolved_tag_file
+	:	endfor
+	:	let cur_dir = fnamemodify(cur_dir, ':h')
+	:endwhile
+:endfunction
+
+
+" Load in tags for Python files
+function LoadPythonTags()
+	let cur_dir = expand('&:p')
+	:while cur_dir != '/'
+	:	for tag_file in split(globpath(cur_dir, 'python-tags-*'), '\n')
+	:		let resolved_tag_file = resolve(tag_file)
+	:		exec 'set tags+='.resolved_tag_file
+	:	endfor
+	:	let cur_dir = fnamemodify(cur_dir, ':h')
+	:endwhile
+:endfunction
+
+autocmd Filetype c,cpp call LoadCPlusPlusTags()
+autocmd Filetype python call LoadPythonTags()
 
 " Ctag shortcut for opening vertical split
 nnoremap <C-w><C-[> :vert winc ]<CR>

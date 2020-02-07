@@ -19,6 +19,7 @@ Sessionx.vim
 # Auto-generated tag files
 tags
 tags-*
+python-tags-*
 
 # Persistent undo
 [._]*.un~

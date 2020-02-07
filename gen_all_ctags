@@ -7,7 +7,7 @@ GEN_TAGS="ctags -R --c++-kinds=+p --fields=+iaS --extra=+q+f --languages=C++"
 echo "Removing old tag files"
 find ~/dev/ -name tags | grep -v \.git | grep -v vim | grep -v ats-buildfs-rhel7/release/install/usr/include/boost/bimap/tags | xargs rm -f
 
-echo "Generating new tag files"
+echo "Generating new C/C++ tag files"
 $GEN_TAGS -f /home/mtalha/dev/ats-buildfs/rhel7/ats-buildfs-rhel7_trunk/ats-buildfs-rhel7/tags /home/mtalha/dev/ats-buildfs/rhel7/ats-buildfs-rhel7_trunk/ats-buildfs-rhel7
 $GEN_TAGS -f /home/mtalha/dev/ats-buildfs/rhel6/ats-buildfs-rhel6_trunk/ats-buildfs-rhel6/tags /home/mtalha/dev/ats-buildfs/rhel6/ats-buildfs-rhel6_trunk/ats-buildfs-rhel6
 $GEN_TAGS -f /home/mtalha/dev/libs/rapidjson/rapidjson_trunk/rapidjson/tags /home/mtalha/dev/libs/rapidjson/rapidjson_trunk/rapidjson
@@ -31,3 +31,9 @@ $GEN_TAGS -f /home/mtalha/dev/ats-plugins/lix-remap/ats-plugin-lix-remap_trunk/t
 $GEN_TAGS -f /home/mtalha/dev/ats-plugins/internalheader-tester/ats-plugin-internalheader-tester_trunk/tags /home/mtalha/dev/ats-plugins/internalheader-tester/ats-plugin-internalheader-tester_trunk/ats-plugin-internalheader-tester
 $GEN_TAGS -f /home/mtalha/dev/ats-plugins/cdn-authenticator/ats-plugin-cdn-authenticator_trunk/tags /home/mtalha/dev/ats-plugins/cdn-authenticator/ats-plugin-cdn-authenticator_trunk/ats-plugin-cdn-authenticator
 
+PY_GEN_TAGS="ctags -R --extra=+f --languages=python"
+
+echo "Generating new Python tag files"
+$PY_GEN_TAGS -f /home/mtalha/dev/ats-plugins/userrequestevent/ats-plugin-userrequestevent_trunk/ats-userrequestevent-test/python-tags-functional-test /home/mtalha/dev/ats-plugins/userrequestevent/ats-plugin-userrequestevent_trunk/ats-userrequestevent-test
+$PY_GEN_TAGS -f /home/mtalha/dev/ats-plugins/simulated-origin-server/ats-plugin-simulated-origin-server_trunk/functional_test/python-tags-functional-test /home/mtalha/dev/ats-plugins/simulated-origin-server/ats-plugin-simulated-origin-server_trunk/functional_test
+$PY_GEN_TAGS -f /home/mtalha/dev/ats-plugins/simulated-origin-override/ats-plugin-simulated-origin-override_trunk/functional_test/python-tags-functional-test /home/mtalha/dev/ats-plugins/simulated-origin-override/ats-plugin-simulated-origin-override_trunk/functional_test
