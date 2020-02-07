@@ -4,79 +4,69 @@ import json
 import glob
 import logging
 
+from collections import OrderedDict
+
 logger = logging.getLogger('ycm_extra_conf_logger')
 
-logger.setLevel(logging.DEBUG)
+logger.setLevel(logging.INFO)
 
-SOURCE_EXTENSIONS = ['.cpp', '.cc', '.c']
-HEADER_EXTENSIONS = ['.h', '.hh', '.hpp']
+SOURCE_EXTENSIONS = ['.cc', '.cpp', '.c']
+HEADER_EXTENSIONS = ['.h', '.hpp', '.hh']
 
 # Disable generating includes for ats-buildfs
 CXX_DISABLE_ATS_BUILDFS_INCLUDES = False
 
 # Blacklist any include that contains the following as a sub dir (does not apply to ats-buildfs includes)
-CXX_BLACKLIST_INCLUDE_SUBDIR = ['.git', 'example', '.deps', 'doc', 'docs', '.libs', 'build', 'release', 'config', 'ats-tester', 'test', 'msinttypes']
+CXX_BLACKLIST_INCLUDE_SUBDIR = ['.git', '.svn', 'example', '.deps', 'doc', 'docs', '.libs', 'build', 'release', 'config', 'ats-tester', 'test']
 
 # Which dirs to check for a corresponding source file
-CXX_CORRESPONDING_SRC_FILE_DIR = ['/../cpp/', '/']
+CXX_CORRESPONDING_SRC_FILE_DIR = ['/', '/../cpp/']
 
 # Whitelist any include that contains the following as a sub dir
-CXX_WHITELIST_INCLUDE_SUBDIR = ['include', 'cpp', 'src']
+CXX_WHITELIST_INCLUDE_SUBDIR = ['include']
 
 # Whitelist any local include that contains the following as a sub dir
-CXX_WHITELIST_LOCAL_INCLUDE_SUBDIR = ['include', 'cpp', 'src']
+CXX_WHITELIST_LOCAL_INCLUDE_SUBDIR = ['include']
 
 # Create 1-1 mapping between the following products
 # If MP includes one, it must include the other
 CXX_ADDITIONAL_LIBRARIES = {'ats-lib-yaml-cpp': ('ATS-lib-li-yamlcpp', [], '*.*.*'), 'ATS-lib-li-yamlcpp': ('ats-lib-yaml-cpp', [], '*.*.*')}
 
-# Manually insert product if product-spec.json doesn't include it
-CXX_WHITELIST_LIBRARIES = {'ats-core': ('ats-core', ['ats6'], '*.*.*'), 'ats-buildfs-rhel7': ('ats-buildfs-rhel7', [], '*.*.*')}
 
+# Manually insert products
+CXX_WHITELIST_LIBRARIES = OrderedDict({'ats-lib-atscppapi': ('ats-lib-atscppapi', [], '4.0.18'), 'ats-lib-boost': ('ats-lib-boost', [], '1.41.0.0')})
 
 def GetUserName():
     return os.getlogin()
 
 
 def IsValidInclude(include):
-    if 'ats-buildfs' in include:
-        return True
     for bad_dir in CXX_BLACKLIST_INCLUDE_SUBDIR:
         if bad_dir in include:
             return False 
     return True
 
 
-def GetLibraryInclude(library, version):
-    return '/home/%s/native-repo/%s/%s/%s/include' % (GetUserName(), library, library, version)
-
-
 def GetIncludePrefix(include):
     prefix = '-I'
-    if 'ats-buildfs' in include:
-        prefix = '-isystem '
     return prefix + include
 
 
 # Compilation flags for C/C++ files
 flags = [
+    '-x',
+    'c++',
+    '-std=c++11',
     '-g',
     '-pthread',
+    '-fPIC',
     '-Werror',
     '-Wno-deprecated',
     '-Wno-expansion-to-defined',
-    '-fPIC',
     # You 100% do NOT need -DUSE_CLANG_COMPLETER and/or -DYCM_EXPORT in your flags;
     # only the YCM source code needs it.
     '-DUSE_CLANG_COMPLETER',
     '-DYCM_EXPORT=',
-    # Set language (C++)
-    '-x',
-    'c++',
-    # C++11
-    '-std=c++11',
-    '-I' + GetLibraryInclude('boost', '1.55.0.6'),
-    '-I/home/mtalha/native-repo/jemalloc/jemalloc/1003.6.1.4/include',
 ]
 
 
@@ -95,7 +85,7 @@ def FindCorrespondingSourceFile(filename):
         basename = os.path.splitext(filename)[0]
         for extension in SOURCE_EXTENSIONS:
             for d in CXX_CORRESPONDING_SRC_FILE_DIR:
-                replacement_file = os.path.dirname(filename) + d + basename + extension
+                replacement_file = os.path.dirname(filename) + d + os.path.splitext(os.path.basename(filename))[0] + extension
                 logger.debug('Checking potential source file location %s' % replacement_file)
                 if os.path.exists(replacement_file):
                     logger.debug('Found source file')
@@ -128,15 +118,13 @@ def DirContainsHeaderFile(dirname, files):
 def GenerateLibraryIncludeForAtsBuildFs(basename):
     logger.debug('Generating library includes for ats-buildfs')
     includes = []
-    already_included = {}
     if CXX_DISABLE_ATS_BUILDFS_INCLUDES:
         logger.debug('Disabled, early returning..')
         return []
     for root, dirs, files in os.walk(basename):
-        if root not in already_included and DirContainsHeaderFile(root, files):
+        if DirContainsHeaderFile(root, files):
             logger.debug('Found include dir %s' % root)
             includes.append(root)
-            already_included[root] = True
     return includes
 
 
@@ -155,7 +143,7 @@ def GenerateLibraryIncludeForProduct(productname, libraries, version):
             continue
         for root, dirs, files in os.walk(basename):
             for d in CXX_WHITELIST_INCLUDE_SUBDIR:
-                if d in root and root != basename:
+                if root.endswith(d):
                     includes.append(root)
                     continue
     return includes
@@ -174,24 +162,22 @@ def GenerateLibraryIncludes(filename, imported_products):
     with open(productspec, 'r') as f:
         json_productspec = json.load(f)
         for productname in json_productspec['product']:
-            libraries = json_productspec['product'][productname]['libraries']
-            version = json_productspec['product'][productname]['version']
-            imported_products[productname] = True
-            if productname in CXX_ADDITIONAL_LIBRARIES:
-                includes.extend(GenerateLibraryIncludeForProduct(
-                    CXX_ADDITIONAL_LIBRARIES[productname][0], 
-                    CXX_ADDITIONAL_LIBRARIES[productname][1], 
-                    CXX_ADDITIONAL_LIBRARIES[productname][2]))
-            includes.extend(GenerateLibraryIncludeForProduct(productname, libraries, version))
+            if productname not in imported_products:
+                libraries = json_productspec['product'][productname]['libraries']
+                version = json_productspec['product'][productname]['version']
+                includes.extend(GenerateLibraryIncludeForProduct(productname, libraries, version))
+                imported_products[productname] = True
+                if productname in CXX_ADDITIONAL_LIBRARIES:
+                    includes.extend(GenerateLibraryIncludeForProduct(
+                        CXX_ADDITIONAL_LIBRARIES[productname][0],
+                        CXX_ADDITIONAL_LIBRARIES[productname][1],
+                        CXX_ADDITIONAL_LIBRARIES[productname][2]))
+                    imported_products[CXX_ADDITIONAL_LIBRARIES[productname][0]] = True
 
     return includes
 
 
 def GenerateWhitelistLibraryIncludes(imported_products):
-    # Hacky way to avoid importing ats-buildfs-rhel7 as well
-    if 'ats-buildfs-rhel6' in imported_products:
-        imported_products['ats-buildfs-rhel7'] = True
-
     includes = []
     for productname in CXX_WHITELIST_LIBRARIES:
         if productname not in imported_products:
@@ -199,7 +185,7 @@ def GenerateWhitelistLibraryIncludes(imported_products):
                 CXX_WHITELIST_LIBRARIES[productname][0], 
                 CXX_WHITELIST_LIBRARIES[productname][1], 
                 CXX_WHITELIST_LIBRARIES[productname][2]))
-
+            imported_products[productname] = True
     return includes
 
 
@@ -213,7 +199,7 @@ def GenerateLocalInclude(filename):
     includes = []
     for root, dirs, files in os.walk(basename):
         for d in CXX_WHITELIST_LOCAL_INCLUDE_SUBDIR:
-            if d in root:
+            if root.endswith(d):
                 logger.debug('Found local include %s' % root)
                 includes.append(root)
                 continue
@@ -269,9 +255,9 @@ def Settings(**kwargs):
 
         imported_products = {}
         cxx_flags = []
-        cxx_flags.extend([GetIncludePrefix(include) for include in GenerateLocalInclude(filename)])
         cxx_flags.extend([GetIncludePrefix(include) for include in GenerateWhitelistLibraryIncludes(imported_products)])
         cxx_flags.extend([GetIncludePrefix(include) for include in GenerateLibraryIncludes(filename, imported_products)])
+        cxx_flags.extend([GetIncludePrefix(include) for include in GenerateLocalInclude(filename)])
 
         cxx_flags = GetRemoveBlacklistedIncludes(cxx_flags)
 

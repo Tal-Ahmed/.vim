@@ -5,6 +5,9 @@ execute pathogen#infect()
 " Enable plugin indent
 filetype plugin indent on
 
+" Setup autoread
+set autoread
+
 " Syntax highlighting
 syntax on
 
@@ -76,14 +79,6 @@ autocmd Filetype python set expandtab tabstop=8 softtabstop=4 shiftwidth=4
 set wildmenu
 set wildmode=longest:full,full
 
-" ---- NERD COMMENT PLUGIN ----
-
-" Nerd comment shortcuts for C, C++, Python
-autocmd Filetype c,cpp vnoremap gc :norm 0i<C-r>='//'<CR><CR>
-autocmd Filetype c,cpp vnoremap gu :norm ^<C-r>=len('//')<CR>x<CR>
-autocmd Filetype python vnoremap gc :norm 0i<C-r>='#'<CR><CR>
-autocmd Filetype python vnoremap gu :norm ^<C-r>=len('#')<CR>x<CR>
-
 " ---- AIRLINE PLUGIN ----
 
 " Airline cache enable
@@ -129,8 +124,3 @@ let g:ycm_add_preview_to_completeopt = 0
 
 " Global YCM configuration file
 let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_extra_conf.py'
-
-" YCM custom IDE-like mappings
-nnoremap rr :YcmCompleter RefactorRename 
-nnoremap gD :TagImposterAnticipateJump <Bar> :YcmCompleter GoToDefinition<CR>
-noremap gt :YcmCompleter GetType<CR>
