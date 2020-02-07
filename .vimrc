@@ -84,6 +84,11 @@ set wildmode=longest:full,full
 " Airline cache enable
 let g:airline_highlighting_cache = 1
 
+" Set airline theme
+let g:airline_theme='dracula'
+
+let g:airline_powerline_fonts = 1
+
 " ---- DRACULA PLUGIN ----
 
 " Dracula colorscheme
@@ -124,3 +129,9 @@ let g:ycm_add_preview_to_completeopt = 0
 
 " Global YCM configuration file
 let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_extra_conf.py'
+
+" ---- CTRLP PLUGIN ----
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\v[\/]\.(git|hg|svn)$',
+  \ 'file': '\v\.(so|o|a)$',
+  \ }
