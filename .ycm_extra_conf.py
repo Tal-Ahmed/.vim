@@ -6,13 +6,26 @@ from collections import OrderedDict
 
 logger = logging.getLogger('ycm_extra_conf_logger')
 
-logger.setLevel(logging.DEBUG)
+logger.setLevel(logging.INFO)
 
 SOURCE_EXTENSIONS = ['.cc', '.cpp', '.c']
 HEADER_EXTENSIONS = ['.h', '.hpp', '.hh']
 
+# Whether or not to print cmd
+DEBUG_CMD = False
+
+# Whether or not to disable local includes
+DISABLE_LOCAL_INCLUDES = False
+
 # Which dirs to check for a corresponding source file
 CXX_CORRESPONDING_SRC_FILE_DIR = ['/', '/../cpp/']
+
+# Whitelist any local include that contains the following as a sub dir
+CXX_WHITELIST_LOCAL_INCLUDE_SUBDIR = ['include', 'src', 'cpp']
+
+# Blacklist any include that contains the following as a sub dir (does not apply to ats-buildfs includes)
+CXX_BLACKLIST_INCLUDE_SUBDIR = ['.git', '.svn', 'python', 'example', '.deps', 'doc', 'docs', '.libs', 'build', 'release', 'config', 'ats-tester', 'test', 'perl']
+
 
 def GetUserName():
     return os.getlogin()
@@ -21,6 +34,25 @@ def GetUserName():
 def IsHeaderFile(filename):
     extension = os.path.splitext(filename)[1]
     return extension in HEADER_EXTENSIONS
+
+
+def IsValidInclude(include):
+    for bad_dir in CXX_BLACKLIST_INCLUDE_SUBDIR:
+        if bad_dir.lower() in include:
+            return False
+    return True
+
+
+def GetRemoveBlacklistedIncludes(includes):
+    logger.debug('Generating valid includes')
+    valid_includes = []
+    for include in includes:
+        if IsValidInclude(include):
+            logger.debug('Found valid include %s' % include)
+            valid_includes.append(include)
+        else:
+            logger.debug('Found invalid include %s' % include)
+    return valid_includes
 
 
 def FindCorrespondingSourceFile(filename):
@@ -61,6 +93,31 @@ def GetPythonSitePackages(filename):
     return ''
 
 
+def GenerateLocalInclude(filename):
+    logger.debug('Generating local includes for %s' % filename)
+    basename = os.path.dirname(filename)
+    while basename != '/home/%s' % GetUserName() and not os.path.exists(basename + '/build.gradle'):
+        basename = os.path.dirname(basename)
+    if basename == '/home/%s' % GetUserName():
+        return []
+    includes = []
+    for root, dirs, files in os.walk(basename):
+        for d in CXX_WHITELIST_LOCAL_INCLUDE_SUBDIR:
+            if d in root and 'build' not in root:
+                logger.debug('Found local include %s' % root)
+                includes.append(root)
+                continue
+    return includes
+
+
+def GetAtsBuildFsSpecifies():
+    return [
+        '-I/home/%s/native-repo/com.linkedin.ats-buildfs-rhel7/ats-buildfs-rhel7/0.2.8/usr/include' % GetUserName(),
+        '-I/home/%s/native-repo/com.linkedin.ats-buildfs-rhel7/ats-buildfs-rhel7/0.2.8/usr/include/c++/4.8.2/x86_64-redhat-linux/include' % GetUserName(),
+        '-I/home/%s/native-repo/com.linkedin.ats-buildfs-rhel7/ats-buildfs-rhel7/0.2.8/usr/include/c++/4.8.2/x86_64-redhat-linux' % GetUserName(),
+    ]
+
+
 def Settings(**kwargs):
     filename = kwargs['filename']
     language = kwargs['language']
@@ -70,6 +127,11 @@ def Settings(**kwargs):
         return {}
 
     if language == 'cfamily':
+        if not filename.startswith('/home/%s/dev/ats-plugins' % GetUserName()) and \
+                not filename.startswith('/home/%s/dev/ats-libs' % GetUserName()):
+            logger.debug('Auto complete only enabled for ats-plugins and ats-libs')
+            return {}
+
         filename = FindCorrespondingSourceFile(filename)
         code_file_no_ext = os.path.splitext(os.path.basename(filename))[0]
 
@@ -98,21 +160,30 @@ def Settings(**kwargs):
             'cd %s' % makefile_dirname,
             'make -n %s.o | grep %s.o | tr -d "\\n" | tr -d "\\t"' % (\
                     code_file_no_ext, code_file_no_ext),
-            'echo " --sysroot=$CHROOT_HOME"'
+            'echo " %s"' % " ".join(GetAtsBuildFsSpecifies())
         ]
-        
 
-        cmd_out = subprocess.Popen(";".join(cmds), shell=True, \
-                stdout=subprocess.PIPE).stdout.read()
+        if DEBUG_CMD:
+            logger.debug('Excuting cmd:')
+            logger.debug(';'.join(cmds))
 
-        if len(cmd_out) == 0:
-            logger.debug('Cmd returned empty output')
+        cmd_out_stream = subprocess.Popen(';'.join(cmds), shell=True, \
+                stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        cmd_out = cmd_out_stream.stdout.read()
+        cmd_out_stderr = cmd_out_stream.stderr.read()
+
+        if len(cmd_out_stderr) != 0:
+            logger.debug('Cmd returned error')
+            logger.debug(cmd_out_stderr)
             return {}
+
+        logger.debug('Cmd returned:')
+        logger.debug(cmd_out)
 
         cxx_flags = ['-x', 'c++', '-g', '-DUSE_CLANG_COMPLETER', '-DYCM_EXPORT=']
         cxx_flags.extend(cmd_out.strip().split(' ')[3:])
-
-        logger.debug(cxx_flags)
+        if not DISABLE_LOCAL_INCLUDES:
+            cxx_flags.extend(GetRemoveBlacklistedIncludes(['-I' + include for include in GenerateLocalInclude(filename)]))
 
         return {
             'flags': cxx_flags,

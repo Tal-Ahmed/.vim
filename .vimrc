@@ -19,12 +19,12 @@ let &t_te.="\e[0 q"
 
 " Disable 1s display when switching from insert to normal mode
 if ! has('gui_running')
-  set ttimeoutlen=10
-  augroup FastEscape
-    autocmd!
-    au InsertEnter * set timeoutlen=0
-    au InsertLeave * set timeoutlen=1000
-  augroup END
+	set ttimeoutlen=10
+	augroup FastEscape
+		autocmd!
+		au InsertEnter * set timeoutlen=0
+		au InsertLeave * set timeoutlen=1000
+	augroup END
 endif
 
 " Prevent vim from auto commenting
@@ -137,8 +137,11 @@ nnoremap <C-w><C-[> :vert winc ]<CR>
 
 " ---- YOU COMPLETE ME PLUGIN ----
 
-" Disable signature help
+" Enable/Disable signature help
 let g:ycm_disable_signature_help = 1
+
+" Enable/Disable as-you-type popups
+let g:ycm_auto_trigger = 1
 
 " Prevent YCM from asking if its safe to load .ycm_extra_conf.py file
 let g:ycm_confirm_extra_conf = 0
@@ -147,11 +150,17 @@ let g:ycm_confirm_extra_conf = 0
 set completeopt-=preview
 let g:ycm_add_preview_to_completeopt = 0
 
+" Enable YCM only for ats-plugins and ats-libs
+if expand('%:p') !~# '^.*/dev/ats-plugins/.*' && expand('%:p') !~# '^.*/dev/ats-libs/.*'
+	let g:loaded_youcompleteme = 1
+endif
+
+
 " Global YCM configuration file
 let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_extra_conf.py'
 
 " ---- CTRLP PLUGIN ----
 let g:ctrlp_custom_ignore = {
-  \ 'dir':  '\v[\/]\.(git|hg|svn)$',
-  \ 'file': '\v\.(so|o|a)$',
-  \ }
+	\ 'dir':  '\v[\/]\.(git|hg|svn)$',
+	\ 'file': '\v\.(so|o|a)$',
+\ }
