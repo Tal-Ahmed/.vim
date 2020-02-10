@@ -17,9 +17,6 @@ DEBUG_CMD = False
 # Whether or not to disable local includes
 DISABLE_LOCAL_INCLUDES = False
 
-# Which dirs to check for a corresponding source file
-CXX_CORRESPONDING_SRC_FILE_DIR = ['/', '/../cpp/']
-
 # Whitelist any local include that contains the following as a sub dir
 CXX_WHITELIST_LOCAL_INCLUDE_SUBDIR = ['include', 'src', 'cpp']
 
@@ -53,20 +50,6 @@ def GetRemoveBlacklistedIncludes(includes):
         else:
             logger.debug('Found invalid include %s' % include)
     return valid_includes
-
-
-def FindCorrespondingSourceFile(filename):
-    if IsHeaderFile(filename):
-        logger.debug('Finding source file for %s' % filename)
-        basename = os.path.splitext(filename)[0]
-        for extension in SOURCE_EXTENSIONS:
-            for d in CXX_CORRESPONDING_SRC_FILE_DIR:
-                replacement_file = os.path.dirname(filename) + d + os.path.splitext(os.path.basename(filename))[0] + extension
-                logger.debug('Checking potential source file location %s' % replacement_file)
-                if os.path.exists(replacement_file):
-                    logger.debug('Found source file')
-                    return replacement_file
-    return filename
 
 
 def GetPythonInterpreterPath(filename):
@@ -124,15 +107,18 @@ def Settings(**kwargs):
 
     if not filename.startswith('/home/%s' % GetUserName()):
         logger.debug('Tried to get settings for %s, ignoring' % filename)
-        return {}
+        return {'flags': []}
 
     if language == 'cfamily':
         if not filename.startswith('/home/%s/dev/ats-plugins' % GetUserName()) and \
                 not filename.startswith('/home/%s/dev/ats-libs' % GetUserName()):
             logger.debug('Auto complete only enabled for ats-plugins and ats-libs')
-            return {}
 
-        filename = FindCorrespondingSourceFile(filename)
+        if IsHeaderFile(filename):
+            logger.debug('YCM disabled for header files')
+            return {'flags': []}
+
+        filename = filename
         code_file_no_ext = os.path.splitext(os.path.basename(filename))[0]
 
         release_env_dirname = os.path.dirname(filename)
@@ -146,12 +132,12 @@ def Settings(**kwargs):
 
         if release_env_dirname == '/home/%s' % GetUserName():
             logger.debug('Could not find release/env script')
-            return {}
+            return {'flags': []}
 
         makefile_path = makefile_dirname + '/Makefile'
         if not os.path.exists(makefile_path):
             logger.debug('Could not find Makefile')
-            return {}
+            return {'flags': []}
 
         cmds = [
             'cd %s' % release_env_dirname,
@@ -175,7 +161,7 @@ def Settings(**kwargs):
         if len(cmd_out_stderr) != 0:
             logger.debug('Cmd returned error')
             logger.debug(cmd_out_stderr)
-            return {}
+            return {'flags': []}
 
         logger.debug('Cmd returned:')
         logger.debug(cmd_out)
@@ -197,5 +183,5 @@ def Settings(**kwargs):
             ]
         }
 
-    return {}
+    return {'flags': {}}
 
