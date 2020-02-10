@@ -100,6 +100,9 @@ highlight Normal ctermbg=None
 
 " ---- CTAGS SETTINGS ----
 
+" Look for tags file in parent directories
+set tags=./tags;,tags;
+
 " Load in tags for C/C++ files
 :function LoadCPlusPlusTags()
 	let previous = ""
