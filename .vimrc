@@ -58,7 +58,7 @@ vnoremap <C-h> <C-W><C-H>
 vnoremap <C-l> <C-W><C-L>
 
 " Enable line numbers
-set nu
+set relativenumber
 
 " Very high scroll-offset to vertically align
 set so=999
@@ -132,8 +132,9 @@ function LoadPythonTags()
 autocmd Filetype c,cpp call LoadCPlusPlusTags()
 autocmd Filetype python call LoadPythonTags()
 
-" Ctag shortcut for opening vertical split
-nnoremap <C-w><C-[> :vert winc ]<CR>
+" Ctag shortcut for splits
+nnoremap <C-v><C-]> :vert winc ]<CR>
+nnoremap <C-x><C-]> <C-w><C-]><CR>
 
 " ---- YOU COMPLETE ME PLUGIN ----
 
