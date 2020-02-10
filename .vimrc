@@ -139,6 +139,18 @@ autocmd Filetype python call LoadPythonTags()
 nnoremap <C-v><C-]> :vert winc ]<CR>
 nnoremap <C-x><C-]> <C-w><C-]><CR>
 
+command! -nargs=1 TagsVerticalSplit vert stag <args>
+command! -nargs=1 TagsHorizontalSplit stag <args>
+
+cnoreabbrev xtags TagsHorizontalSplit
+cnoreabbrev vtags TagsVerticalSplit
+
+command! -nargs=1 TagSelectVerticalSplit vert sts <args>
+command! -nargs=1 TagSelectHorizontalSplit sts <args>
+
+cnoreabbrev gxtags TagSelectHorizontalSplit
+cnoreabbrev gvtags TagSelectVerticalSplit
+
 " ---- YOU COMPLETE ME PLUGIN ----
 
 let g:ycm_filter_diagnostics = {
