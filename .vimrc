@@ -58,7 +58,7 @@ vnoremap <C-h> <C-W><C-H>
 vnoremap <C-l> <C-W><C-L>
 
 " Enable line numbers
-set relativenumber
+set number relativenumber
 
 " Very high scroll-offset to vertically align
 set so=999
@@ -151,11 +151,15 @@ let g:ycm_confirm_extra_conf = 0
 set completeopt-=preview
 let g:ycm_add_preview_to_completeopt = 0
 
-" Enable YCM only for ats-plugins and ats-libs
+" Disable YCM for non ats-plugins and ats-libs files
 if expand('%:p') !~# '^.*/dev/ats-plugins/.*' && expand('%:p') !~# '^.*/dev/ats-libs/.*'
 	let g:loaded_youcompleteme = 1
 endif
 
+" Disable YCM for header files
+if expand('%:e') == 'h' || expand('%:e') == 'hh' || expand('%:e') == 'hpp'
+	let g:loaded_youcompleteme = 1
+endif
 
 " Global YCM configuration file
 let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_extra_conf.py'

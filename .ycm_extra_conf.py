@@ -6,7 +6,7 @@ from collections import OrderedDict
 
 logger = logging.getLogger('ycm_extra_conf_logger')
 
-logger.setLevel(logging.INFO)
+logger.setLevel(logging.DEBUG)
 
 SOURCE_EXTENSIONS = ['.cc', '.cpp', '.c']
 HEADER_EXTENSIONS = ['.h', '.hpp', '.hh']
@@ -181,7 +181,7 @@ def Settings(**kwargs):
         logger.debug(cmd_out)
 
         cxx_flags = ['-x', 'c++', '-g', '-DUSE_CLANG_COMPLETER', '-DYCM_EXPORT=']
-        cxx_flags.extend(cmd_out.strip().split(' ')[3:])
+        cxx_flags.extend(str(cmd_out).strip().split(' ')[3:])
         if not DISABLE_LOCAL_INCLUDES:
             cxx_flags.extend(GetRemoveBlacklistedIncludes(['-I' + include for include in GenerateLocalInclude(filename)]))
 
