@@ -141,6 +141,17 @@ nnoremap <C-x><C-]> <C-w><C-]><CR>
 
 " ---- YOU COMPLETE ME PLUGIN ----
 
+let g:ycm_filter_diagnostics = {
+  \ "cpp": {
+  \      "regex": [ ".*" ],
+  \      "level": "error",
+  \    },
+  \ "python": {
+  \      "regex": [ ".*" ],
+  \      "level": "error",
+  \    },
+\ }
+
 " Enable/Disable signature help
 let g:ycm_disable_signature_help = 1
 
