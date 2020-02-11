@@ -2,6 +2,12 @@ execute pathogen#infect()
 
 " ---- GENERAL VIM SETTINGS ----
 
+" The encoding displayed
+set encoding=utf-8  
+
+" The encoding written to file
+set fileencoding=utf-8  
+
 " Enable plugin indent
 filetype plugin indent on
 
@@ -153,16 +159,8 @@ cnoreabbrev gvtags TagSelectVerticalSplit
 
 " ---- YOU COMPLETE ME PLUGIN ----
 
-let g:ycm_filter_diagnostics = {
-  \ "cpp": {
-  \      "regex": [ ".*" ],
-  \      "level": "error",
-  \    },
-  \ "python": {
-  \      "regex": [ ".*" ],
-  \      "level": "error",
-  \    },
-\ }
+" Enable/Disable diagnostics ui
+let g:ycm_show_diagnostics_ui = 1
 
 " Enable/Disable signature help
 let g:ycm_disable_signature_help = 1

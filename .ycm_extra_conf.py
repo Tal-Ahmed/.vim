@@ -11,6 +11,9 @@ logger.setLevel(logging.DEBUG)
 SOURCE_EXTENSIONS = ['.cc', '.cpp', '.c']
 HEADER_EXTENSIONS = ['.h', '.hpp', '.hh']
 
+# What to return when on error
+ERR_RET = {'flags': [], 'do_cache': True}
+
 # Whether or not to print cmd
 DEBUG_CMD = False
 
@@ -107,17 +110,17 @@ def Settings(**kwargs):
 
     if not filename.startswith('/home/%s' % GetUserName()):
         logger.debug('Tried to get settings for %s, ignoring' % filename)
-        return {}
+        return ERR_RET
 
     if language == 'cfamily':
         if not filename.startswith('/home/%s/dev/ats-plugins' % GetUserName()) and \
                 not filename.startswith('/home/%s/dev/ats-libs' % GetUserName()):
             logger.debug('Auto complete only enabled for ats-plugins and ats-libs')
-            return {}
+            return ERR_RET
 
         if IsHeaderFile(filename):
             logger.debug('YCM disabled for header files')
-            return {}
+            return ERR_RET
 
         filename = filename
         code_file_no_ext = os.path.splitext(os.path.basename(filename))[0]
@@ -133,12 +136,12 @@ def Settings(**kwargs):
 
         if release_env_dirname == '/home/%s' % GetUserName():
             logger.debug('Could not find release/env script')
-            return {}
+            return ERR_RET
 
         makefile_path = makefile_dirname + '/Makefile'
         if not os.path.exists(makefile_path):
             logger.debug('Could not find Makefile')
-            return {}
+            return ERR_RET
 
         cmds = [
             'cd %s' % release_env_dirname,
@@ -162,7 +165,7 @@ def Settings(**kwargs):
         if len(cmd_out_stderr) != 0:
             logger.debug('Cmd returned error')
             logger.debug(cmd_out_stderr)
-            return {}
+            return ERR_RET
 
         logger.debug('Cmd returned:')
         logger.debug(cmd_out)
@@ -184,5 +187,5 @@ def Settings(**kwargs):
             ]
         }
 
-    return {}
+    return ERR_R
 
