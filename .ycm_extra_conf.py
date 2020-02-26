@@ -105,7 +105,6 @@ def Settings(**kwargs):
     filename = kwargs['filename']
     language = kwargs['language']
 
-
     if not filename.startswith('/home/%s' % GetUserName()):
         logger.debug('Tried to get settings for %s, ignoring' % filename)
         raise Exception("YCM disabled for this file")

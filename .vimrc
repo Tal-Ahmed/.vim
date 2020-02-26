@@ -17,6 +17,9 @@ set autoread
 " Syntax highlighting
 syntax on
 
+" Highlight search
+set hlsearch
+
 " Display a vertical line in insert mode
 let &t_ti.="\e[1 q"
 let &t_SI.="\e[5 q"
@@ -79,6 +82,7 @@ set splitright
 " Indentation for different file types 
 autocmd Filetype c,cpp set cindent 
 autocmd Filetype c,cpp set expandtab tabstop=2 softtabstop=2 shiftwidth=2 cinoptions=g+1,h1,(0,w1,N-s
+autocmd Filetype xml set expandtab tabstop=2 softtabstop=2 shiftwidth=2
 autocmd Filetype python set expandtab tabstop=8 softtabstop=4 shiftwidth=4
 
 " Wildmenu to full
