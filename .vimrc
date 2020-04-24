@@ -184,6 +184,6 @@ let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_extra_conf.py'
 
 " ---- CTRLP PLUGIN ----
 let g:ctrlp_custom_ignore = {
-	\ 'dir':  '\.git$\|build$\|__pycache__$',
+	\ 'dir':  '\.git$\|build$\|__pycache__$\|code_cov$',
 	\ 'file': '\.so$\|\.o$\|\.a$',
 \ }

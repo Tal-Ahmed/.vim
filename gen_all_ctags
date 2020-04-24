@@ -31,6 +31,7 @@ $GEN_TAGS -f /home/mtalha/dev/ats-plugins/stats-remap/ats-plugin-stats-remap_tru
 $GEN_TAGS -f /home/mtalha/dev/ats-plugins/lix-remap/ats-plugin-lix-remap_trunk/tags /home/mtalha/dev/ats-plugins/lix-remap/ats-plugin-lix-remap_trunk/ats-plugin-lix-remap
 $GEN_TAGS -f /home/mtalha/dev/ats-plugins/internalheader-tester/ats-plugin-internalheader-tester_trunk/tags /home/mtalha/dev/ats-plugins/internalheader-tester/ats-plugin-internalheader-tester_trunk/ats-plugin-internalheader-tester
 $GEN_TAGS -f /home/mtalha/dev/ats-plugins/cdn-authenticator/ats-plugin-cdn-authenticator_trunk/tags /home/mtalha/dev/ats-plugins/cdn-authenticator/ats-plugin-cdn-authenticator_trunk/ats-plugin-cdn-authenticator
+$GEN_TAGS -f /home/mtalha/dev/ats-plugins/shield/ats-plugin-shield_trunk/tags /home/mtalha/dev/ats-plugins/shield/ats-plugin-shield_trunk/ats-plugin-shield
 
 PY_GEN_TAGS="universal-ctags -R --extras=+f --languages=python"
 
@@ -44,3 +45,6 @@ $PY_GEN_TAGS -f /home/mtalha/dev/ats-plugins/internalheader-tester/ats-plugin-in
 $PY_GEN_TAGS -f /home/mtalha/dev/ats-plugins/dc-selection/ats-plugin-dc-selection_trunk/functional_test/python-tags-functional-test /home/mtalha/dev/ats-plugins/dc-selection/ats-plugin-dc-selection_trunk/functional_test
 $PY_GEN_TAGS -f /home/mtalha/dev/ats-plugins/d2/ats-plugin-d2_trunk/functional_test/python-tags-functional-test /home/mtalha/dev/ats-plugins/d2/ats-plugin-d2_trunk/functional_test
 $PY_GEN_TAGS -f /home/mtalha/dev/ats-plugins/cdn-authenticator/ats-plugin-cdn-authenticator_trunk/functional_test/python-tags-functional-test /home/mtalha/dev/ats-plugins/cdn-authenticator/ats-plugin-cdn-authenticator_trunk/functional_test
+$PY_GEN_TAGS -f /home/mtalha/dev/ats-plugins/shield/ats-plugin-shield_trunk/ats-shield-test/python-tags-functional-test /home/mtalha/dev/ats-plugins/shield/ats-plugin-shield_trunk/ats-shield-test
+$PY_GEN_TAGS -f /home/mtalha/dev/ats-libs/lixclient/ats-lib-lixclient_trunk/functional_test/python-tags-functional-test /home/mtalha/dev/ats-libs/lixclient/ats-lib-lixclient_trunk/functional_test
+$PY_GEN_TAGS -f /home/mtalha/dev/custom/deployment-hooks/ats-deployment-hooks_trunk/python-tags-trunk /home/mtalha/dev/custom/deployment-hooks/ats-deployment-hooks_trunk

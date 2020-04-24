@@ -123,22 +123,24 @@ def Settings(**kwargs):
         code_file_no_ext = os.path.splitext(os.path.basename(filename))[0]
 
         release_env_dirname = os.path.dirname(filename)
-        makefile_dirname = os.path.dirname(filename)
+        makefile_dirnames = []
 
         while release_env_dirname != '/home/%s' % GetUserName() and \
                 not os.path.exists(release_env_dirname + '/release/env'):
-            release_env_dirname = os.path.dirname(release_env_dirname)
             if os.path.exists(release_env_dirname + '/Makefile'):
-                makefile_dirname = release_env_dirname
+                makefile_dirnames.append(release_env_dirname)
+            release_env_dirname = os.path.dirname(release_env_dirname)
 
         if release_env_dirname == '/home/%s' % GetUserName():
             logger.debug('Could not find release/env script')
             raise Exception("YCM disabled for this file")
 
-        makefile_path = makefile_dirname + '/Makefile'
-        if not os.path.exists(makefile_path):
+        if len(makefile_dirnames) == 0:
             logger.debug('Could not find Makefile')
             raise Exception("YCM disabled for this file")
+
+        logger.debug(makefile_dirnames)
+        makefile_dirname = makefile_dirnames[0]
 
         cmds = [
             'cd %s' % release_env_dirname,
